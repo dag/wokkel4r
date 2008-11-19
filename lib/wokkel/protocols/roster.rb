@@ -1,10 +1,10 @@
-require 'wokkel/handler'
 require 'xmpp4r/roster/iq/roster'
 
 module Wokkel
   module Protocols
-    class Roster < Handler
+    module Roster
       def on_initialize
+        super
         @stream.add_iq_callback(&method(:on_iq))
       end
 

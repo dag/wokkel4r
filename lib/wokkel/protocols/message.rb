@@ -1,9 +1,8 @@
-require 'wokkel/handler'
-
 module Wokkel
   module Protocols
-    class Message < Handler
+    module Message
       def on_initialize
+        super
         @stream.add_message_callback(&method(:on_message))
       end
 

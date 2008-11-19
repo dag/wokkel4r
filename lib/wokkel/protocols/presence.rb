@@ -1,9 +1,8 @@
-require 'wokkel/handler'
-
 module Wokkel
   module Protocols
-    class Presence < Handler
+    module Presence
       def on_initialize
+        super
         @stream.add_presence_callback(&method(:on_presence))
       end
 
