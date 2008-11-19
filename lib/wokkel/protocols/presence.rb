@@ -6,6 +6,10 @@ module Wokkel
         @stream.add_presence_callback(&method(:on_presence))
       end
 
+      def available
+        send(Jabber::Presence.new)
+      end
+
       def on_presence(prc)
       end
     end

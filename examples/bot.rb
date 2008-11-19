@@ -11,6 +11,11 @@ class EchoBot < Wokkel::Handler
   include Wokkel::Protocols::Roster
   include Wokkel::Protocols::Presence
 
+  def on_logged_in
+    available
+    get_roster
+  end
+
   def on_message(msg)
     if msg.type == :chat && !msg.body.nil?
       send(msg.answer.set_type(msg.type).set_body(msg.body))
@@ -39,7 +44,7 @@ end
 if __FILE__ == $0
   Jabber::debug = true
   client = Jabber::Client.new(Jabber::JID.new(ARGV[0]))
-  EchoBot.new(client)
+  echo = EchoBot.new(client)
   client.connect
   begin
     client.auth(ARGV[1])
@@ -47,7 +52,6 @@ if __FILE__ == $0
     client.register(ARGV[1])
     client.auth(ARGV[1])
   end
-  client.send(Jabber::Presence.new)
-  client.send(Jabber::Iq.new_rosterget)
+  echo.on_logged_in
   Thread.stop
 end
